@@ -33,7 +33,7 @@ class CR4JournalTreasureHuntingMenu extends CR4JournalQuestMenu
 				if( questTemp.GetType() == TreasureHunt  )
 				{
 					//SORT:
-					SortedAdd(questTemp, allQuests, allQuestLevels);
+					SortedAdd(questTemp, allQuests, allQuestLevels, initialTrackedQuest);
 					//allQuests.PushBack(questTemp);
 				}
 			}

@@ -33,7 +33,7 @@ class CR4JournalMonsterHuntingMenu extends CR4JournalQuestMenu
 				if( questTemp.GetType() == MonsterHunt  )
 				{
 					//SORT
-					SortedAdd(questTemp, allQuests, allQuestLevels);
+					SortedAdd(questTemp, allQuests, allQuestLevels, initialTrackedQuest);
 					//allQuests.PushBack(questTemp);
 				}
 			}

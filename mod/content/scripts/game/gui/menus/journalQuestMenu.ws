@@ -117,7 +117,7 @@ class CR4JournalQuestMenu extends CR4ListBaseMenu
 			if( questTemp )
 			{
 				//SORT
-				SortedAdd(questTemp, allQuests, allQuestLevels);
+				SortedAdd(questTemp, allQuests, allQuestLevels, initialTrackedQuest);
 				//allQuests.PushBack(questTemp);
 				
 			}

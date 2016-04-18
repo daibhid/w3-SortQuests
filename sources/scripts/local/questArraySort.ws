@@ -1,5 +1,5 @@
 
-function SortedAdd( targetQuest : CJournalQuest, out sortedQuests  : array<CJournalQuest>, out sortedQuestLevels : array<int>)
+function SortedAdd( targetQuest : CJournalQuest, out sortedQuests  : array<CJournalQuest>, out sortedQuestLevels : array<int>, currentQuest : CJournalQuest)
 {
 	var j						: int;
 	var questLevels 			: C2dArray;
@@ -20,6 +20,11 @@ function SortedAdd( targetQuest : CJournalQuest, out sortedQuests  : array<CJour
 	{
 		sortedQuests.PushBack(targetQuest);
 		sortedQuestLevels.PushBack(questLevel);
+	}
+	else if(targetQuest == currentQuest)
+	{
+		sortedQuests.Insert(0, targetQuest);
+		sortedQuestLevels.Insert(0, -1);
 	}
 	else
 	{
