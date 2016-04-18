@@ -20,6 +20,7 @@ Copy the modified scripts to your Witcher 3 Mods folder, under a new folder for 
 
 The structure should be:
 
+```
 The Witcher 3 Wild Hunt
 |- _redist
 |- bin
@@ -39,3 +40,4 @@ The Witcher 3 Wild Hunt
 		 |      |- questArraySort.ws
 		 |- blob0.bundle
 		 |- metadata.store
+```
