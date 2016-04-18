@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-16"?>
-<redsln version="1" type="mod" name="sortquests">
+<redsln version="1" type="mod" name="SortQuests">
 	<path type="standard">scripts\source\</path>
 	<path type="mod">scripts\local\</path>
-	<path type="content">content\</path>
 	<install>C:\GOG Games\The Witcher 3 Wild Hunt</install>
 </redsln>
 
