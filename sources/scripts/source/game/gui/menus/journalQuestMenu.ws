@@ -105,7 +105,8 @@ class CR4JournalQuestMenu extends CR4ListBaseMenu
 		var tempQuests					: array<CJournalBase>;
 		var questTemp					: CJournalQuest;
 		var i							: int;
-		var allQuestLevels				: array<int>;
+		var allQuestLevels				: array<array<int>>;
+		var allQuestMap					: array<array<CJournalQuest>>;
 		
 		m_journalManager.GetActivatedOfType( 'CJournalQuest', tempQuests );
 		
@@ -117,7 +118,7 @@ class CR4JournalQuestMenu extends CR4ListBaseMenu
 			if( questTemp )
 			{
 				//SORT
-				SortedAdd(questTemp, allQuests, allQuestLevels, initialTrackedQuest);
+				SortedAdd(questTemp, allQuests, allQuestMap, allQuestLevels, initialTrackedQuest);
 				//allQuests.PushBack(questTemp);
 				
 			}
