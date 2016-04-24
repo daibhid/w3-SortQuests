@@ -19,7 +19,8 @@ class CR4JournalMonsterHuntingMenu extends CR4JournalQuestMenu
 		var questTemp					: CJournalQuest;
 		var i							: int;
 		var questType					: eQuestType;
-		var allQuestLevels				: array<int>;
+		var allQuestLevels				: array<array<int>>;
+		var allQuestMap					: array<array<CJournalQuest>>;
 		
 		m_journalManager.GetActivatedOfType( 'CJournalQuest', tempQuests );
 		
@@ -33,11 +34,12 @@ class CR4JournalMonsterHuntingMenu extends CR4JournalQuestMenu
 				if( questTemp.GetType() == MonsterHunt  )
 				{
 					//SORT
-					SortedAdd(questTemp, allQuests, allQuestLevels, initialTrackedQuest);
+					SortedAdd(questTemp, allQuestMap, allQuestLevels, initialTrackedQuest);
 					//allQuests.PushBack(questTemp);
 				}
 			}
 		}
+		Sort2DArray(allQuestMap, allQuests);
 		
 		ShowRenderToTexture("");
 	}
