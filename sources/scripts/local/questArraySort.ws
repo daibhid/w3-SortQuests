@@ -4,12 +4,12 @@ enum GroupOrder {
 	GROUP_Secondary = 1,
 	GROUP_Witcher = 2,
 	GROUP_Treasure = 3,
-	GROUP_Failed = 4,
+	GROUP_Completed = 4,
+	GROUP_Failed = 5,
 }
 
 function SortedAdd( 
 	targetQuest : CJournalQuest, 
-	out sortedQuests  : array<CJournalQuest>, 
 	out sortedQuestsMap  : array<array<CJournalQuest>>, 
 	out sortedQuestLevels : array<array<int>>, 
 	currentQuest : CJournalQuest)
@@ -31,21 +31,18 @@ function SortedAdd(
 	questLevel = GetQuestLevel(targetQuest);
 	group = GetQuestGroup(targetQuest);
 	
-
-	if(sortedQuests.Size() == 0)
+	if(sortedQuestsMap.Size() == 0)
 	{
 		Setup2DArray(sortedQuestsMap, sortedQuestLevels);
 	}
 	
 	if(sortedQuestsMap[group].Size() == 0)
 	{
-		f2DMapAdd(targetQuest, group, sortedQuests, sortedQuestsMap, 0);
 		sortedQuestsMap[group].PushBack(targetQuest);
 		sortedQuestLevels[group].PushBack(questLevel);
 	}
 	else if(targetQuest == currentQuest)
 	{
-		f2DMapAdd(targetQuest, group, sortedQuests, sortedQuestsMap, 0);
 		sortedQuestsMap[group].Insert(0, targetQuest);
 		sortedQuestLevels[group].Insert(0, -1);
 	}
@@ -56,13 +53,11 @@ function SortedAdd(
 		{
 			if(sortedQuestLevels[group][j] > questLevel )
 			{
-				f2DMapAdd(targetQuest, group, sortedQuests, sortedQuestsMap, j);
 				sortedQuestsMap[group].Insert(j, targetQuest);
 				sortedQuestLevels[group].Insert(j, questLevel);
 				return;
 			}
 		}
-		f2DMapAdd(targetQuest, group, sortedQuests, sortedQuestsMap, 0);
 		sortedQuestsMap[group].PushBack(targetQuest);
 		sortedQuestLevels[group].PushBack(questLevel);
 		return;
@@ -108,17 +103,29 @@ function GetQuestLevel(targetQuest : CJournalQuest) : int
 	
 function GetQuestGroup(targetQuest : CJournalQuest) : int
 {
-	switch(targetQuest.GetType())
+	var eStatus : EJournalStatus;
+	eStatus = theGame.GetJournalManager().GetEntryStatus(targetQuest);
+
+	switch(eStatus)
 	{
-	case Story :
-		return GROUP_Main;
-	case Side :
-		return GROUP_Secondary;
-	case MonsterHunt :
-		return GROUP_Witcher;
-	case TreasureHunt :
-		return GROUP_Treasure;
-	
+	case JS_Active:
+	case JS_Inactive:
+		switch(targetQuest.GetType())
+		{
+		case Story :
+			return GROUP_Main;
+		case Side :
+			return GROUP_Secondary;
+		case MonsterHunt :
+			return GROUP_Witcher;
+		case TreasureHunt :
+			return GROUP_Treasure;
+		
+		}
+	case JS_Success:
+		return GROUP_Completed;
+	case JS_Failed:
+		return GROUP_Failed;
 	}
 	return GROUP_Failed;
 }
@@ -126,28 +133,25 @@ function GetQuestGroup(targetQuest : CJournalQuest) : int
 function Setup2DArray(out sortedQuestsMap  : array<array<CJournalQuest>>, out sortedQuestLevels : array<array<int>>)
 {
 	var i : int;
-	//for(i = 0; i < GroupOrder.Size(); i += 1 )
-	//{
-		//sortedQuestsMap[i] = new array<CJournalQuest>();
-		//sortedQuestLevels[i] = new array<int>();
-	//}
-}
-
-function f2DMapAdd(
-	targetQuest : CJournalQuest,
-	group : int,
-	out sortedQuests  : array<CJournalQuest>, 
-	out sortedQuestsMap  : array<array<CJournalQuest>>, 
-	targetPosition : int)
-{
-	var index : int;
-	var i : int;
-	index = 0;
-	for(i = 0; i < group; i+= 1)
+	var newArrayOfQuests : array<CJournalQuest>;
+	var newArrayOfInts : array<int>;
+	for(i = 0; i <= GROUP_Failed; i += 1 )
 	{
-		index += sortedQuestsMap[i].Size();
+		sortedQuestsMap.PushBack(newArrayOfQuests);
+		sortedQuestLevels.PushBack(newArrayOfInts);
 	}
-	index += targetPosition;
+} 
+
+function Sort2DArray(inputArray : array<array<CJournalQuest>>, out sortedArray : array<CJournalQuest>)
+{
+	var i: int;
+	var j: int;
+	for(i = 0; i < inputArray.Size(); i += 1)
+	{
+		for(j = 0; j < inputArray[i].Size(); j += 1)
+		{
+			sortedArray.PushBack(inputArray[i][j]);
+		}
+	}
 	
-	sortedQuests.Insert(index, targetQuest);
 }
